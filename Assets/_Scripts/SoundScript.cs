@@ -6,10 +6,10 @@ public class SoundScript : MonoBehaviour
 {
     void footstep()
     {
-        FMODUnity.RuntimeManager.PlayOneShot("event:/footstep",  transform.position);
+        //FMODUnity.RuntimeManager.PlayOneShot("event:/footstep",  transform.position);
     }
     void swoosh()
     {
-        FMODUnity.RuntimeManager.PlayOneShot("event:/swoosh",  transform.position); 
+        //FMODUnity.RuntimeManager.PlayOneShot("event:/swoosh",  transform.position); 
     }
 }

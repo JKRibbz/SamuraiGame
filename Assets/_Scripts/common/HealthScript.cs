@@ -46,7 +46,7 @@ public class HealthScript : MonoBehaviour
         if(!invulnerable) //Check if able to damage
         {
             currentHealth -= amount;
-            FMODUnity.RuntimeManager.PlayOneShot ("event:/MetalHit",  transform.position);              //PLAY SOUND OF BEING HIT
+            //FMODUnity.RuntimeManager.PlayOneShot ("event:/MetalHit",  transform.position);              //PLAY SOUND OF BEING HIT
             healthSlider.value = currentHealth;
         }
 
@@ -54,7 +54,7 @@ public class HealthScript : MonoBehaviour
             return false;
         else
         {
-            FMODUnity.RuntimeManager.PlayOneShot ("event:/EnemyDeath1",  transform.position);            //PLAY SOUND OF DEATH
+            //FMODUnity.RuntimeManager.PlayOneShot ("event:/EnemyDeath1",  transform.position);            //PLAY SOUND OF DEATH
             return true;
         }
            
