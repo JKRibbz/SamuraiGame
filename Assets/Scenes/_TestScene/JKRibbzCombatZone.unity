@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -276,7 +276,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &173839496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -734,6 +734,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Utility Thief
       objectReference: {fileID: 0}
+    - target: {fileID: 2359666415028603131, guid: 3220c2bfcfab47646a0ab70e2c0a6c78, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2359666415028603132, guid: 3220c2bfcfab47646a0ab70e2c0a6c78, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -780,11 +784,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2359666415999347605, guid: 3220c2bfcfab47646a0ab70e2c0a6c78, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2359666415999347605, guid: 3220c2bfcfab47646a0ab70e2c0a6c78, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3220c2bfcfab47646a0ab70e2c0a6c78, type: 3}
@@ -1282,7 +1286,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702546727}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.08, y: 1, z: 3}
+  m_LocalPosition: {x: 2.08, y: 1.127, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1213374666471952934}
@@ -1330,7 +1334,7 @@ MonoBehaviour:
   timer: 0.3
   comboIndex: 0
   maxComboDelay: 0.9
-  isAttacking: 0
+  canCombo: 0
   KnockbackDuration: 0.3
   knockbackSpeed: 20
   slashRange: 5
@@ -1367,12 +1371,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 1702546735}
+  minSM: 0
+  maxSM: 1.8
   speedMultiplier: 1
   rotationSpeed: 10
   movementSpeed: 7
   canMove: 1
   dashSpeed: 20
   dashTime: 0.2
+  utilityKillCount: 0
 --- !u!114 &1702546735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1389,13 +1396,15 @@ MonoBehaviour:
   playerHealth: {fileID: 1702546730}
   movementScript: {fileID: 1702546734}
   combatScript: {fileID: 1702546731}
+  animScript: {fileID: 1989770215712655518}
   charController: {fileID: 1702546728}
   mCamera: {fileID: 0}
   deathTimerDisplay: {fileID: 54332432}
   deathTimer: {fileID: 2007692301}
   health: {fileID: 2059333061}
   displaySpeedMult: {fileID: 272652640}
-  anim: {fileID: 5059487417941690460}
+  isBusy: 0
+  isInvulnerable: 0
   animBlendVector: {x: 0, y: 0, z: 0}
   animSmoothTime: 0.1
 --- !u!4 &1710271980 stripped
@@ -1447,8 +1456,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attenuationObject: {fileID: 1860830454}
-  ListenerNumber: -1
 --- !u!1 &1889904478
 GameObject:
   m_ObjectHideFlags: 0
@@ -1500,7 +1507,7 @@ MonoBehaviour:
   Player: {fileID: 1702546735}
   worldTimerDisplay: {fileID: 818931265}
   worldTimer: {fileID: 582675301}
-  startingTime: 0
+  startingTime: 200
   isPaused: 0
 --- !u!4 &1889904481
 Transform:
@@ -2105,7 +2112,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1989770215712655516}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.11, z: 0}
+  m_LocalPosition: {x: 0, y: -0.96, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4765876305608184869}
@@ -2347,6 +2354,7 @@ GameObject:
   - component: {fileID: 1213374666471952934}
   - component: {fileID: 5059487417941690460}
   - component: {fileID: 1989770215712655517}
+  - component: {fileID: 1989770215712655518}
   m_Layer: 0
   m_Name: BasicMotionsDummy
   m_TagString: Untagged
@@ -2366,6 +2374,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db75dd7e0efa0284184810a433de4384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1989770215712655518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989770215712655516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f15aab5ca87cdf4c8eda866e3b4f040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 1702546735}
+  playerAnim: {fileID: 5059487417941690460}
 --- !u!4 &2020299395611049007
 Transform:
   m_ObjectHideFlags: 0

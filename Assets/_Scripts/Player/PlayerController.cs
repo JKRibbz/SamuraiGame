@@ -18,6 +18,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     internal PlayerCombatScript combatScript;
 
+    [SerializeField]
+    internal PlayerAnimScript animScript;
+
     public CharacterController charController;
     public Camera mCamera;
 
@@ -31,8 +34,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     internal bool isBusy, isInvulnerable;
 
-    //Animations shiz
-    public Animator anim;
     [SerializeField]
     private Vector3 animBlendVector;
     Vector3 animVelocity;
@@ -73,7 +74,8 @@ public class PlayerController : MonoBehaviour
         //anim.SetFloat(verticalAnimationID, animBlendVector.z);
         //anim.SetFloat(horizontalAnimationID, animBlendVector.x);
 
-        anim.SetBool(Animator.StringToHash("isMoving"), inputHandler.isMoving);
+        animScript.playerAnim.SetBool(Animator.StringToHash("isMoving"), inputHandler.isMoving);
+
         //anim.SetInteger(Animator.StringToHash("AttackIndex"), combatScript.comboIndex);
         //anim.SetBool(Animator.StringToHash("isAttacking"), combatScript.isAttacking);
 

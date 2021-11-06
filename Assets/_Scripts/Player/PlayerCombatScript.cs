@@ -20,14 +20,14 @@ public class PlayerCombatScript : MonoBehaviour
 
     public bool isPressed = false;
     public bool isHolding = false;
-    bool actionCompleted = true;
+    //bool actionCompleted = true;
     public float timer = 0.3f;
 
     //Attack Combo
-    private float lastAttackTime;
+    private float currentAttackTime, lastAttackTime;
     public int comboIndex; //Current Combo Count
     public float maxComboDelay = 0.9f;
-    public bool isAttacking;
+    public bool canCombo;
 
     //Knockback Values
     public float KnockbackDuration = 0.3f;
@@ -46,13 +46,18 @@ public class PlayerCombatScript : MonoBehaviour
     void Start()
     {
         comboIndex = 0;
-        isAttacking = false;
+        //isAttacking = false;
     }
 
     
     public void CombatUpdate()
     {
-        if (playerController.inputHandler.GetKeyDown(PlayerActions.Attack) && !playerController.isBusy) //If Attack Button is down
+        if (playerController.inputHandler.GetKeyDown(PlayerActions.Attack))
+        {
+            StartCoroutine(NormalAttack(comboIndex));
+        }
+
+        /**if (playerController.inputHandler.GetKeyDown(PlayerActions.Attack) && !playerController.isBusy) //If Attack Button is down
         {
             isPressed = true;                                           
             playerController.movementScript.canMove = false;
@@ -112,7 +117,7 @@ public class PlayerCombatScript : MonoBehaviour
         if (playerController.inputHandler.GetKeyDown(PlayerActions.Bloom) && !playerController.isBusy) //Slash Target - Default : RM Button
         {
             StartCoroutine(Bloom(0f));
-        }
+        }*/
     }
     
     Vector3 TargetFacing(Vector3 targetDirection, Vector3 origin)
@@ -143,7 +148,70 @@ public class PlayerCombatScript : MonoBehaviour
             return false;
     }
 
-    
+    IEnumerator NormalAttack(int currentComboIndex)
+    {
+        playerController.movementScript.canMove = false;
+        playerController.movementScript.RotateToClickLocation();
+
+        currentAttackTime = Time.time;
+
+        if (currentAttackTime - lastAttackTime > maxComboDelay)
+            comboIndex = 0;
+
+        /*if(comboIndex == 0)
+        {
+            playerController.animScript.playerAnim.Play("Attack1");
+            comboIndex++;
+            yield return null;
+        }
+
+        if(comboIndex != 0)
+        {
+            if(canCombo)
+            {
+                canCombo = false;
+                comboIndex++;
+            }
+        }*/
+
+        switch (currentComboIndex)
+        {
+            case 0: //Initial Attack
+
+                playerController.animScript.playerAnim.Play("Attack1");
+
+                comboIndex = 1;
+                break;
+
+            case 1: //Second Attack
+
+                if(canCombo)
+                {
+                    comboIndex++;
+                    canCombo = false;                    
+                }
+
+                //sound 2
+                break;
+
+            case 2: //Third Attack
+
+                if (canCombo)
+                {
+                    comboIndex++;
+                    canCombo = false;                    
+                }
+
+                //sound3
+                break;
+        }
+
+        lastAttackTime = Time.time;
+
+        yield return null;
+
+        playerController.movementScript.canMove = true;
+    }
 
     IEnumerator BasicAttack(float resetTime, int currentComboIndex) //Attack Ability
     {
@@ -160,14 +228,14 @@ public class PlayerCombatScript : MonoBehaviour
                 case 0: //Initial Attack
                     comboIndex++;
                     //Debug.Log("Combo 1");  
-                    playerController.anim.Play("Attack1");
+                    //playerController.anim.Play("Attack1");
                     //sound 1
                     break;
 
                 case 1: //Second Attack
                     comboIndex++;
                     //Debug.Log("Combo 2");
-                    playerController.anim.Play("Attack1");
+                    //playerController.anim.Play("Attack1");
                     //sound 2
                     break;
 
@@ -176,7 +244,7 @@ public class PlayerCombatScript : MonoBehaviour
                     //Debug.Log("Combo 3");
 
                     //attackDamageMultiplier += 2;
-                    playerController.anim.Play("Attack1");
+                    //playerController.anim.Play("Attack1");
                     //sound3
                     break;
             }
@@ -205,7 +273,7 @@ public class PlayerCombatScript : MonoBehaviour
         }
         else
         {
-            playerController.anim.Play("Attack1");
+            //playerController.anim.Play("Attack1");
             comboIndex = 0;
         }
 
